@@ -44,7 +44,7 @@ func fetchConfigPath() string {
 	flag.Parse()
 
 	if res == "" {
-		res = os.Getenv("CONFIG_PATH")
+		res = os.Getenv("REGISTRY_CONFIG_PATH")
 	}
 
 	return res
