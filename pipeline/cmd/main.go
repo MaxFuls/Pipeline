@@ -1,24 +1,35 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"pipeline/internal/grpc/registry"
+	"log/slog"
+	"os"
+	"pipeline/internal/config"
+	"strconv"
+)
 
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+const (
+	envlocal = "local"
+	envdev   = "dev"
+	envprod  = "prod"
 )
 
 func main() {
-	conn, _ := grpc.NewClient("localhost:5000", grpc.WithTransportCredentials(insecure.NewCredentials()))
 
-	defer conn.Close()
+	cfg := config.MustLoad()
 
-	client := registry.NewRegistryClient(conn)
+	log := setUpLogger(cfg.Env)
+	log.Info("starting pipeline service", slog.String("env", cfg.Env), slog.String("registry addres", cfg.Registry.Ip+":"+strconv.Itoa(int(cfg.GRPC.Port))))
+}
 
-	ctx := context.Background()
-
-	response, _ := client.Register(ctx, &registry.RegistryRequest{Name: "test", Ip: "124.111.1.1", Port: 123})
-
-	fmt.Print(response)
+func setUpLogger(env string) *slog.Logger {
+	var log *slog.Logger
+	switch env {
+	case envlocal:
+		log = slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
+	case envdev:
+		log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
+	case envprod:
+		log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
+	}
+	return log
 }
