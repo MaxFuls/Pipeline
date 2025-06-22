@@ -1,0 +1,9 @@
+env: "local"
+name: "logger"
+registry:
+  ip: "127.0.0.1"
+  port: 5000
+grpc:
+  ip: "127.0.0.1"
+  port:  5003
+  timeout: 10h
