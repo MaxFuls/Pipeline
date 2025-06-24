@@ -3,17 +3,22 @@ package validate
 import (
 	"context"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 )
 
 type ServerAPI struct {
 	UnimplementedValidateHandlerServer
-	validatation ValidateHandler
+	validatation ProcessHandler
 }
 
-type ValidateHandler interface {
+type ProcessHandler interface {
 	Handle(ctx context.Context, message string) (string, error)
+}
+
+func RegisterServer(grpc *grpc.Server, handler ProcessHandler) {
+	RegisterValidateHandlerServer(grpc, &ServerAPI{validatation: handler})
 }
 
 func (s *ServerAPI) Handle(ctx context.Context, req *ProcessRequest) (*ProcessResponse, error) {

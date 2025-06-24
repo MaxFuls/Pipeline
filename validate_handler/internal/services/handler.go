@@ -14,5 +14,10 @@ func New(log *slog.Logger) *ValidateHandler {
 }
 
 func (h *ValidateHandler) Handle(ctx context.Context, message string) (string, error) {
-	return "", nil
+	if len(message)%2 == 0 {
+		message = message + " - accepted"
+	} else {
+		message = message + " - rejected"
+	}
+	return message, nil
 }

@@ -10,6 +10,7 @@ import (
 
 type Config struct {
 	Env      string         `yaml:"env"`
+	Name     string         `yaml:"name"`
 	Registry RegistryServer `yaml:"registry"`
 	GRPC     GRPCServer     `ymal:"grpc"`
 }
@@ -20,6 +21,7 @@ type RegistryServer struct {
 }
 
 type GRPCServer struct {
+	Ip      string        `yaml:"ip"`
 	Port    uint32        `yaml:"port"`
 	Timeout time.Duration `yaml:"timeout"`
 }
@@ -50,7 +52,7 @@ func fetchConfigPath() string {
 	flag.Parse()
 
 	if res == "" {
-		res = os.Getenv("PIPELINE_CONFIG_PATH")
+		res = os.Getenv("LOG_CONFIG_PATH")
 	}
 
 	return res

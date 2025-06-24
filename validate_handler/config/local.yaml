@@ -1,7 +1,9 @@
 env: "local"
+name: "validation"
 registry:
-  ip: "localhost"
+  ip: "127.0.0.1"
   port: 5000
 grpc:
+  ip: "127.0.0.1"
   port:  5001
   timeout: 10h

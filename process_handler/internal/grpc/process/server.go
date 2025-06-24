@@ -10,7 +10,7 @@ import (
 
 type ServerAPI struct {
 	UnimplementedValidateHandlerServer
-	validatation ProcessHandler
+	processor ProcessHandler
 }
 
 type ProcessHandler interface {
@@ -18,12 +18,12 @@ type ProcessHandler interface {
 }
 
 func RegisterServer(grpc *grpc.Server, handler ProcessHandler) {
-	RegisterValidateHandlerServer(grpc, &ServerAPI{validatation: handler})
+	RegisterValidateHandlerServer(grpc, &ServerAPI{processor: handler})
 }
 
 func (s *ServerAPI) Handle(ctx context.Context, req *ProcessRequest) (*ProcessResponse, error) {
 	message := req.GetMessage()
-	handled, err := s.validatation.Handle(ctx, message)
+	handled, err := s.processor.Handle(ctx, message)
 
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
