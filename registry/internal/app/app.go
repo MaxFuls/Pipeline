@@ -41,10 +41,14 @@ func (a *App) Run() error {
 	l, err := net.Listen("tcp", fmt.Sprintf(":%d", a.port))
 
 	if err != nil {
+		log.Error("Connection failed with error", slog.String("error", err.Error()))
 		return fmt.Errorf("%s: %w", op, err)
 	}
 
+	defer l.Close()
+
 	if err := a.gRPCSerever.Serve(l); err != nil {
+		log.Error("Server error", slog.String("error", err.Error()))
 		return fmt.Errorf("%s: %w", op, err)
 	}
 
