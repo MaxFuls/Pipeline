@@ -9,12 +9,20 @@ import (
 )
 
 type Config struct {
-	Env  string     `yaml:"env"`
-	GRPC GRPCConfig `yaml:"grpc"`
+	Env      string         `yaml:"env"`
+	Name     string         `yaml:"name"`
+	Registry RegistryServer `yaml:"registry"`
+	GRPC     GRPCServer     `ymal:"grpc"`
 }
 
-type GRPCConfig struct {
-	Port    int           `yaml:"port"`
+type RegistryServer struct {
+	Ip   string `yaml:"ip"`
+	Port uint32 `yaml:"port"`
+}
+
+type GRPCServer struct {
+	Ip      string        `yaml:"ip"`
+	Port    uint32        `yaml:"port"`
 	Timeout time.Duration `yaml:"timeout"`
 }
 
@@ -25,7 +33,7 @@ func MustLoad() *Config {
 	}
 
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		panic("config path does not exist: " + path)
+		panic("config path invalid " + path)
 	}
 
 	var cfg Config
@@ -44,7 +52,7 @@ func fetchConfigPath() string {
 	flag.Parse()
 
 	if res == "" {
-		res = os.Getenv("REGISTRY_CONFIG_PATH")
+		res = os.Getenv("LOG_CONFIG_PATH")
 	}
 
 	return res
