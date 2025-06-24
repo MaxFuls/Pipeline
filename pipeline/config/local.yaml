@@ -1,7 +1,7 @@
 env: "local"
 registry:
-  ip: "localhost"
+  ip: "127.0.0.1"
   port: 5000
 grpc:
-  port:  5001
+  port:  5004
   timeout: 10h

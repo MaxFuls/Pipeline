@@ -1,7 +1,0 @@
-env: "dev"
-registry:
-  ip: "localhost"
-  port: 5000
-grpc:
-  port:  5001
-  timeout: 10h

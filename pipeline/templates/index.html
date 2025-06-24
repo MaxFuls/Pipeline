@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Динамические поля</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Форма с динамическими полями</h1>
+
+        <div class="field-group">
+            <label for="mainMessage">Тестовое сообщение:</label>
+            <textarea id="mainMessage" placeholder="Введите ваше основное сообщение здесь..."></textarea>
+        </div>
+
+        <div class="dynamic-fields">
+            <div class="field-counter">
+                Дополнительные поля: <span id="fieldCount">0</span>
+            </div>
+
+            <div id="fieldsContainer">
+                <!-- Динамические поля будут добавляться сюда -->
+            </div>
+
+            <button class="btn btn-plus" onclick="addField()" title="Добавить новое поле">
+                +
+            </button>
+        </div>
+
+        <button class="btn submit-btn" onclick="submitForm()">
+            Отправить данные
+        </button>
+
+        <div id="response" class="response-area"></div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
